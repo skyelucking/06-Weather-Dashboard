@@ -9,41 +9,137 @@
     <script src="https://kit.fontawesome.com/199fd71158.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/Assets/style.css">
     
-    <!-- JQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <title></title>
+    
+     <title></title>
   </head>
   <body>
-      <div class="container" id="weatherContainer">
-     <div class="container border border-dark" >
-     <div class="row">
-     <div class="col-lg-12 header alert-primary border border-dark">Weather Dashboard</div>
-     </div>
+
+    <div class="container" id="weatherContainer">
+      <div class="container border border-dark" >
       <div class="row">
-      <div class="col-lg-4 border border-dark" id="searchCol">
-          <div>Search for a city</div>
-          <div>
-              <form class="searchForm" id="searchForm" >
-              <input type="text" placeholder="Enter a city" name="citySearch">
-              <button type="submit"><i class="fa fa-search"></i></button>
-            </form></div>
-            <div>Previous Cities Searched</div>
-        </div>
-    <div class="col-lg-8 border border-dark">
-        <div id="currentInfo"><h2>Currently in City:</h2></div>
-        <div>Information Box</div>
-        <div id="fiveDayForecast"><h2>Five Day Forecast</h2></div>
-        <div>Information Box</div>
-    </div>
-</div>
-</div>
-</div>
-</div>
+      <div class="col-lg-12 header alert-primary border border-dark">Weather Dashboard</div>
+      </div>
+       <div class="row">
+       <div class="col-lg-4 border border-dark" id="searchCol">
+           <div>Search for a city:</div>
+           <div>
+               <form class="searchForm" id="searchForm" >
+               <input type="text" placeholder="Enter a city" name="citySearch">
+               <button type="submit"><i class="fa fa-search"></i></button>
+             </form></div>
+             <div>Previous Cities Searched</div>
+         </div>
+     <div class="col-lg-8 border border-dark">
+         <div id="currentInfo"><h2>Currently in City:</h2> <div class="city"></div></div>
+
+         <div><div class="wind"></div>
+        <div class="humidity"></div>
+        <div class="tempF"></div>
+      </div>
+         <div id="fiveDayForecast"><h2>Five Day Forecast</h2></div>
+         <div>Information Box</div>
+     </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+<!-- Retrieved data will be dumped here -->
+
+<!-- Add extra div for the bonus Fahrenheit temp -->
+
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities",
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-key": "6726973034msh050dba543917680p1df2dajsnf7353df4c711",
+      "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
+    }
+  };
+  
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+  });
+
+</script>
+
+
+<script type="text/javascript">
+// This is our NEW API key
+var APIKey = "bc5f98e2e0cea0c6e28a5a426c201efa";
+
+// Here we are building the URL we need to query the database
+var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=hourly,daily&appid=" +
+  APIKey;
+
+// Here we run our AJAX call to the OpenWeatherMap API
+$.ajax({
+  url: queryURL,
+  method: "GET"
+}).then(function (response) {
+
+  // Log the queryURL
+  console.log(queryURL);
+
+  // Log the resulting object
+  console.log(response.lat, response.lon);
+  console.log(response);
+
+
+
+  // // This is our API key
+  // var APIKey = "dfc41aa62f112190b31bf2f801b22efa";
+
+  // // Here we are building the URL we need to query the database
+  // var queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
+  //   "q=Bujumbura,Burundi&appid=" + APIKey;
+
+  // // Here we run our AJAX call to the OpenWeatherMap API
+  // $.ajax({
+  //   url: queryURL,
+  //   method: "GET"
+  // }).then(function (response) {
+
+  //   // Log the queryURL
+  //   console.log(queryURL);
+
+  //   // Log the resulting object
+  //   console.log(response);
+
+    // Transfer content to HTML
+    $(".city").html("<h3>" + response.name + "</h3>");
+    $(".wind").text("Wind Speed: " + response.wind.speed);
+    $(".humidity").text("Humidity: " + response.main.humidity);
+
+    // Convert the temp to fahrenheit
+    var tempF = (response.main.temp - 273.15) * 1.80 + 32;
+
+    // add temp content to html
+    $(".temp").text("Temperature (K) " + response.main.temp);
+    $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
+
+    // Log the data in the console as well
+    console.log("Wind Speed: " + response.wind.speed);
+    console.log("Humidity: " + response.main.humidity);
+    console.log("Temperature (F): " + tempF);
+  });
+
+
 
   
-  <script src="/Assets/script.js"></script>
+ 
+  // <script src="Assets/script.js"> </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
     </body>
     </html>

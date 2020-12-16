@@ -1,0 +1,36 @@
+.row {
+  padding: 5px;
+}
+#holder {
+  width: 80%;
+  align-self: center;
+  color: rgb(2, 2, 2);
+  vertical-align: middle;
+  text-align: left;
+  font-size: 1.5em;
+  padding: 20px
+  }
+
+
+#nyTimesContainer {
+width: 80%;
+align-self: center;
+height: 200px;
+background-color: navy;
+color: white;
+vertical-align: middle;
+text-align: center;
+font-size: 2em;
+padding: 20px
+}
+
+.header {
+font-size: 3em;
+font-weight: bolder;
+text-align: center;
+}
+
+.boxTops {
+  background-color: rgb(151, 146, 146);
+}
+
