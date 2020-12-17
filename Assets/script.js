@@ -46,7 +46,7 @@
      console.log("lat:" + latData + " long: " + longData + " City Name: " + cityName);
     
      var APIKey = "bc5f98e2e0cea0c6e28a5a426c201efa";
-     var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latData + "&lon="+ longData + "&exclude=hourly,daily&appid=" +  APIKey;
+     var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latData + "&lon="+ longData + "&exclude=&appid=" +  APIKey;
      $.ajax({
   url: queryURL,
   method: "GET"
