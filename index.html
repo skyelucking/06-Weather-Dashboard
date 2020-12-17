@@ -2,92 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!-- CSS Components -->
+       <!-- CSS Components -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/199fd71158.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/Assets/style.css">
-    
-    
-    <!-- jquery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
-    <!-- My Google Places API  Key = AIzaSyA5iZSuKAK0n-F7XktBgeLMAeY69bLd2Ls -->
-    <!-- Google Maps Javascript Library -->
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyA5iZSuKAK0n-F7XktBgeLMAeY69bLd2Ls"></script>
-    
-    <script> 
-    var searchInput= "search_input";
-    var longData = '';
-    var latData = '';
-    var cityName = '';
-    
-
-    $(document).ready(function () {
-      // preventDefault();
-        var autocomplete;
-        
-        autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), { types:['geocode']
-        
-    });
-        google.maps.event.addListener(autocomplete, 'place_changed', function(){
-            var near_place = autocomplete.getPlace();
-            document.getElementById('latitude_input').value = near_place.geometry.location.lat();
-            document.getElementById('longitude_input').value = near_place.geometry.location.lng();
-
-            document.getElementById('latitude-view').innerHTML = near_place.geometry.location.lat();
-            document.getElementById('longitutde-view').innerHTML = near_place.geometry.location.lng();
-            console.log(near_place);
-            console.log(document.getElementById('latitude_input').value );
-            console.log(near_place.address_components[0].short_name);
-            cityName = near_place.address_components[0].short_name
-            
-        });
-
-    });
-
-    $(document).on('change', '#'+searchInput, function(){
-        // var near_place = autocomplete.getPlace();
-        document.getElementById('latitude_input').value = "";
-        document.getElementById('longitude_input').value = "";
-        document.getElementById('latitude-view').innerHTML = "";
-        document.getElementById('longitutde-view').innerHtml = "";
-        longData = document.getElementById('longitude_input').value;
-        latData = document.getElementById('latitude_input').value;
-       
-        
-    
-        
-    })
-
-    $(document).on('click', '#citySearch', function() {
-     latData = document.getElementById('latitude_input').value;
-     longData = document.getElementById('longitude_input').value;
-     console.log(document.getElementById('latitude_input').value);
-     console.log("lat:" + latData + " long: " + longData + " City Name: " + cityName);
-    
-     var APIKey = "bc5f98e2e0cea0c6e28a5a426c201efa";
-     var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latData + "&lon="+ longData + "&exclude=hourly,daily&appid=" +  APIKey;
-     $.ajax({
-  url: queryURL,
-  method: "GET"
-}).then(function (response) {
-
-  // Log the queryURL
-  // console.log(queryURL);
-
-  // Log the resulting object
-  console.log(response.lat, response.lon);
-  console.log(response);
+    <link rel="stylesheet" href="Assets/style.css">
   
-});
-
-   })
-
-    </script>
-  </head>
-  <body>
+</head>
+<body>
 
     <div class="container" id="weatherContainer">
       <div class="container border border-dark" >
@@ -114,7 +35,12 @@
          <div>Previous Cities Searched</div></div>
             </div>
         <div class="col-lg-7 border border-dark">
-         <div id="currentInfo"><h2>Currently in City:</h2> <div id="cityName"></div></div>
+         <div id="currentInfo"><h2>Currently in City: <div id="cityName" style="color: blue;"></div></h2>
+         <div>Temperature: <span id="temp"></span></div>
+         <div>Humidity: <span id="humidity"></span></div>
+         <div>Wind Speed: <span id="wind"></span></div>
+         <div>UV Index: <span id="uvi"></span></div>
+         
 
         <div id="fiveDayForecast"><h2>Five Day Forecast</h2></div>
          <div>Information Box</div>
@@ -122,40 +48,18 @@
  </div>
  </div>
  </div>
- </div></div> </div>
- 
-<!-- Retrieved data will be dumped here -->
+ </div>
+</div> 
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-<!-- Add extra div for the bonus Fahrenheit temp -->
-
-
-
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyA5iZSuKAK0n-F7XktBgeLMAeY69bLd2Ls"> </script> 
 
 
-<script type="text/javascript">
-// This is our NEW API key
-var APIKey = "bc5f98e2e0cea0c6e28a5a426c201efa";
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-// Here we are building the URL we need to query the database
-var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latData + "&lon="+ longData + "&exclude=hourly,daily&appid=" +
-  APIKey;
+<script src="Assets/script.js"></script> 
 
-// Here we run our AJAX call to the OpenWeatherMap API
-$.ajax({
-  url: queryURL,
-  method: "GET"
-}).then(function (response) {
-
-  // Log the queryURL
-  // console.log(queryURL);
-
-  // Log the resulting object
-  console.log(response.lat, response.lon);
-  console.log(response);
-});
-</script>
+    </html>
     </body>
     </html>
