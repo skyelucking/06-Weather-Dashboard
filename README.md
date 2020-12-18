@@ -7,9 +7,9 @@ Use the [OpenWeather API](https://openweathermap.org/api) to retrieve weather da
 ## User Story
 
 ```
-AS A traveler
-I WANT to see the weather outlook for multiple cities
-SO THAT I can plan a trip accordingly
+AS A hangry vegan mother with kids that have allergies
+I WANT to see the nearby restaurants that I can filter by type and accomodations
+SO THAT I can get my grub on
 ```
 
 ## Acceptance Criteria

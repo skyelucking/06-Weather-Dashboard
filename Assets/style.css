@@ -1,3 +1,9 @@
+.forecastBox {
+  background-color: hsl(207, 90%, 45%);
+  border-color: black;
+  border-width: 10px;
+  border-radius: 10%;
+}
 .header {
 font-size: 3em;
 font-weight: bolder;
