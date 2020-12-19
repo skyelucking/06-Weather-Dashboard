@@ -45,8 +45,9 @@ $(document).on("change", "#" + searchInput, function () {
 });
 
 $(document).on("click", "#citySearch", function () {
-  latData = document.getElementById("latitude_input").value;
+        latData = document.getElementById("latitude_input").value;
   longData = document.getElementById("longitude_input").value;
+  var forecastDate = '';
   var APIKey = "bc5f98e2e0cea0c6e28a5a426c201efa";
   var queryURL =
     "https://api.openweathermap.org/data/2.5/onecall?lat=" +
@@ -60,7 +61,7 @@ $(document).on("click", "#citySearch", function () {
     url: queryURL,
     method: "GET",
   }).then(function (response) {
-        // Log the resulting object
+        
   console.log(response);
   console.log(response.daily);
   console.log(response.daily[0]);
@@ -73,39 +74,51 @@ $(document).on("click", "#citySearch", function () {
         document.getElementById("wind").innerHTML = response.current.wind_speed;
         document.getElementById("uvi").innerHTML = response.current.uvi;
     
-        // Render Weather Details
-    for (var i = 0; i < 6; i++){
-    function timeConverter(UNIX_timestamp){
-        var UNIX_timestamp = response.daily[i].dt;
-        var a = new Date(UNIX_timestamp * 1000);
-        var months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
-        var year = a.getFullYear();
-        var month = months[a.getMonth()];
-        var date = a.getDate();
-        var hour = a.getHours();
-        var min = a.getMinutes();
-        var sec = a.getSeconds();
-        var time =  month + '/' + date+ '/' + year; 
-        forecastDate = time;
-        return time;
-        var forecast = 
-        document.getElementById("f0Date").innerHTML = cityName;
-        document.getElementById("f0Icon").innerHTML = date;
-        document.getElementById("temp").innerHTML = response.current.temp;
-        document.getElementById("f0Temp").innerHTML = response.current.humidity;
-        document.getElementById("fHumidity").innerHTML = response.current.wind_speed;
-        document.getElementById("uvi").innerHTML = response.current.uvi;
+   // Render 5 Day Forecast Weather Details
+   
+    for (var i = 0; i < 6;){
         
-      }
-      
-      console.log(timeConverter(0));
-      console.log("Clouds: " + response.daily[i].clouds);
-      
-      var forecastDiv = $("<div>");
-      forecastDiv.css("background-color", "red")
-      var forecastDate = forecastDate;
-      var pOne = $("<p>").text(forecastDate);
-      forecastDiv.append(pOne);
+       //logging the forecast Information
+        var date = new Date(response.daily[i].dt * 1000);
+        console.log(date);
+        console.log("Clouds: " + response.daily[i].clouds);
+        console.log("http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png");
+        console.log("Temp: " + response.daily[i].temp.day + " F");
+        console.log("Humidity: " + response.daily[i].humidity);
+        
+          //Converts Unix date to Formatted Date
+        function timeConverter(UNIX_timestamp){
+            var UNIX_timestamp = response.daily[i].dt;
+            var a = new Date(UNIX_timestamp * 1000);
+            var months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
+            var year = a.getFullYear();
+            var month = months[a.getMonth()];
+            var date = a.getDate();
+            var hour = a.getHours();
+            var min = a.getMinutes();
+            var sec = a.getSeconds();
+            var time =  month + '/' + date+ '/' + year; 
+            var forecastDate = time;
+         }
+    //Creating the Forecast Boxes
+    var newBox= $("<div>");     
+    var newCol= $("<col>")
+        //  $("newCol").attr('id', "forecast-" + i)
+        var newDate= $("<div>");
+        newDate.text(date);
+        $("#fBox" + i).append(newDate);
+
+        $("#fBox" + i).append("<img id='theImg' src='http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png'/>");
+
+        var newTemp= $("<div>");
+        newTemp.text("Temp: " + response.daily[i].temp.day + " F");
+        $("#fBox" + i).append(newTemp);
+        var newHumidity= $("<div>");
+        newHumidity.text("Humidity: " + response.daily[i].humidity);
+        $("#fBox" + i).append(newHumidity);
+        
+        i++;
+                
    }
     
   });
