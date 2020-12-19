@@ -21,18 +21,21 @@
            <div>
             <div class="container">
 <!-- autocomplete location search inputs -->
+
 <!-- <div class="form-group"> -->
                 <input type="text" class="form-control" id="search_input" placeholder="Type city..."></div>
                 <input type="hidden" id="latitude_input" />
                 <input type="hidden" id="longitude_input" /></div>
-               <button id="citySearch">Search</button>
+               <button id="citySearch" style="margin: 10px;">Search</button>
 <!-- Display lat and long -->
                 <div class="latlong-view">
-                    <p><b>Latitude:</b><span id="latitude-view"></span></p>
-                    <p><b>Longitude:</b><span id="longitutde-view"></span></p>
+                    <p><b></b><span id="latitude-view" style="visibility: hidden;"></span></p>
+                    <p><b></b><span id="longitutde-view" style="visibility: hidden;"></span></p>
 
-
-         <div>Previous Cities Searched</div></div>
+         <div><h4>Previous Cities Searched</h4></div></div>
+         <div class="container" id="prevCityList">
+          <div class="prevCity alert-primary border border-dark"> </div></div>
+         
             </div>
         <div class="col-lg-8 border border-dark">
          <div id="currentInfo">
@@ -48,11 +51,11 @@
         <div id="fiveDayForecast"><h2>Five Day Forecast</h2></div>
          <hr>
          <div class="row" >
-           <div class="col fBox" id="fBox0">1</div>
-           <div class="col fBox" id="fBox1">2</div>
-           <div class="col fBox" id="fBox2">3</div>
-           <div class="col fBox" id="fBox3">4</div>
-           <div class="col fBox" id="fBox4">5</div>
+           <div class="col fBox" id="fBox0"></div>
+           <div class="col fBox" id="fBox1"></div>
+           <div class="col fBox" id="fBox2"></div>
+           <div class="col fBox" id="fBox3"></div>
+           <div class="col fBox" id="fBox4"></div>
            
          <div>
          </div>

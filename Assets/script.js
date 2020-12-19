@@ -1,5 +1,7 @@
 // <!-- My Google Places API  Key = AIzaSyA5iZSuKAK0n-F7XktBgeLMAeY69bLd2Ls -->
 // <!-- Google Maps Javascript Library -->
+//Declare TimeBlocks Array
+var savedCities = [];
 var searchInput = "search_input";
 var longData = "";
 var latData = "";
@@ -45,9 +47,10 @@ $(document).on("change", "#" + searchInput, function () {
 });
 
 $(document).on("click", "#citySearch", function () {
-        latData = document.getElementById("latitude_input").value;
+ 
+  latData = document.getElementById("latitude_input").value;
   longData = document.getElementById("longitude_input").value;
-  var forecastDate = '';
+  var forecastDate = "";
   var APIKey = "bc5f98e2e0cea0c6e28a5a426c201efa";
   var queryURL =
     "https://api.openweathermap.org/data/2.5/onecall?lat=" +
@@ -56,70 +59,141 @@ $(document).on("click", "#citySearch", function () {
     longData +
     "&exclude=&units=imperial&appid=" +
     APIKey;
-  
-    $.ajax({
+
+  $.ajax({
     url: queryURL,
     method: "GET",
   }).then(function (response) {
-        
-  console.log(response);
-  console.log(response.daily);
-  console.log(response.daily[0]);
-  var date = new Date(response.daily[0].dt * 1000);
-  console.log(date);
-        document.getElementById("cityNameLabel").innerHTML = cityName;
-        document.getElementById("currentDate").innerHTML = date;
-        document.getElementById("temp").innerHTML = response.current.temp;
-        document.getElementById("humidity").innerHTML = response.current.humidity;
-        document.getElementById("wind").innerHTML = response.current.wind_speed;
-        document.getElementById("uvi").innerHTML = response.current.uvi;
+    console.log(response);
+    console.log(response.daily);
+    console.log(response.daily[0]);
+    var date = new Date(response.daily[0].dt * 1000);
+    console.log(date);
+    document.getElementById("cityNameLabel").innerHTML = cityName;
+    document.getElementById("currentDate").innerHTML = date;
+    document.getElementById("temp").innerHTML = response.current.temp;
+    document.getElementById("humidity").innerHTML = response.current.humidity;
+    document.getElementById("wind").innerHTML = response.current.wind_speed;
+    document.getElementById("uvi").innerHTML = response.current.uvi;
     
-   // Render 5 Day Forecast Weather Details
-   
-    for (var i = 0; i < 6;){
-        
-       //logging the forecast Information
-        var date = new Date(response.daily[i].dt * 1000);
-        console.log(date);
-        console.log("Clouds: " + response.daily[i].clouds);
-        console.log("http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png");
-        console.log("Temp: " + response.daily[i].temp.day + " F");
-        console.log("Humidity: " + response.daily[i].humidity);
-        
-          //Converts Unix date to Formatted Date
-        function timeConverter(UNIX_timestamp){
-            var UNIX_timestamp = response.daily[i].dt;
-            var a = new Date(UNIX_timestamp * 1000);
-            var months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
-            var year = a.getFullYear();
-            var month = months[a.getMonth()];
-            var date = a.getDate();
-            var hour = a.getHours();
-            var min = a.getMinutes();
-            var sec = a.getSeconds();
-            var time =  month + '/' + date+ '/' + year; 
-            var forecastDate = time;
-         }
-    //Creating the Forecast Boxes
-    var newBox= $("<div>");     
-    var newCol= $("<col>")
-        //  $("newCol").attr('id', "forecast-" + i)
-        var newDate= $("<div>");
-        newDate.text(date);
-        $("#fBox" + i).append(newDate);
+    function saveCityArr(){
+        if ('localStorage' in window && window['localStorage'] !== null) {
+      
+           var savedCity= JSON.stringify({city : cityName, lat: response.lat, long: response.lon }),
+                  savedCities = localStorage.getItem('savedCity');
+                  savedCities = savedCities ? JSON.parse(savedCities) : [];
+                  savedCities.push(savedCity);
+                   
 
-        $("#fBox" + i).append("<img id='theImg' src='http://openweathermap.org/img/w/" + response.daily[i].weather[0].icon + ".png'/>");
-
-        var newTemp= $("<div>");
-        newTemp.text("Temp: " + response.daily[i].temp.day + " F");
-        $("#fBox" + i).append(newTemp);
-        var newHumidity= $("<div>");
-        newHumidity.text("Humidity: " + response.daily[i].humidity);
-        $("#fBox" + i).append(newHumidity);
+           localStorage.setItem("savedCity", JSON.stringify(savedCities)); 
+        //    alert("The data was saved."); 
+            console.log(savedCities);
+                };
+            }
         
-        i++;
+            saveCityArr();
+      function allStorage() {
+
+                var values = [],
+                    keys = Object.keys(localStorage),
+                    i = keys.length;
+            
+                while ( i-- ) {
+                    values.push( localStorage.getItem(keys[i]) );
+                }
+            console.log(values);
+                return values;
                 
-   }
-    
+            }
+         
+
+    // Render 5 Day Forecast Weather Details
+
+    for (var i = 0; i < 6; i++ ) {
+        $(".fBox").css("visibility", "visible");
+      //logging the forecast Information
+      var date = new Date(response.daily[i].dt * 1000);
+      console.log(date);
+      console.log("Clouds: " + response.daily[i].clouds);
+      console.log(
+        "http://openweathermap.org/img/w/" +
+          response.daily[i].weather[0].icon +
+          ".png"
+      );
+      console.log("Temp: " + response.daily[i].temp.day + " F");
+      console.log("Humidity: " + response.daily[i].humidity);
+
+      //Converts Unix date to Formatted Date
+      var UNIX_timestamp = response.daily[i].dt;
+      var a = new Date(UNIX_timestamp * 1000);
+      var months = [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+      ];
+      var year = a.getFullYear();
+      var month = months[a.getMonth()];
+      var date = a.getDate();
+      var hour = a.getHours();
+      var min = a.getMinutes();
+      var sec = a.getSeconds();
+      var time = month + "/" + date + "/" + year;
+      var forecastDate = time;
+
+      //Creating the Forecast Boxes
+      var newBox = $("<div>");
+      var newCol = $("<col>");
+      //  $("newCol").attr('id', "forecast-" + i)
+      var newDate = $("<div>");
+      newDate.text(time);
+      $("#fBox" + i)
+        .append(newDate)
+        .css("font-weight", "bolder");
+
+      $("#fBox" + i)
+        .append(
+          "<img id='theImg' src='http://openweathermap.org/img/w/" +
+            response.daily[i].weather[0].icon +
+            ".png'/>"
+        )
+        .css("align-content", "center");
+
+      var newTemp = $("<div>");
+      newTemp.text("Temp: " + response.daily[i].temp.day + " F");
+      $("#fBox" + i).append(newTemp);
+      var newHumidity = $("<div>");
+      newHumidity.text("Humidity: " + response.daily[i].humidity + "%");
+      $("#fBox" + i).append(newHumidity);
+
+      ;
+    }
   });
 });
+
+
+
+// var savedCities = [];
+// function store(cityName) {
+//     items.push(cityName);
+//     localStorage.setItem("cityName", JSON.stringify(savedCities));
+// }
+// function saveToLocalStorage() {
+//     localStorage.setItem("savedCity", JSON.stringify(savedCitiesObj));
+//   }
+  
+//   function getFromLocalStorage() {
+//     // Check if local storage (LS) key exists
+//     if (localStorage.getItem("savedCity")) {
+//       // Then retrieve the associated value from LS
+//       savedCitiesObj = JSON.parse(localStorage.getItem("savedCity"));
+//     }
+//   }
