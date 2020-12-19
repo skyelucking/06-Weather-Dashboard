@@ -1,8 +1,13 @@
-.forecastBox {
+.fBox {
   background-color: hsl(207, 90%, 45%);
+  color:aliceblue;
   border-color: black;
-  border-width: 10px;
-  border-radius: 10%;
+  border-width: 0px;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  width: 10em;
+  height: 10em;
 }
 .header {
 font-size: 3em;
