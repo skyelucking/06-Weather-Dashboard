@@ -6,6 +6,7 @@ var searchInput = "search_input";
 var longData = "";
 var latData = "";
 var cityName = "";
+var weatherResponse;
 
 $(document).ready(function () {
   // preventDefault();
@@ -47,9 +48,14 @@ $(document).on("change", "#" + searchInput, function () {
 });
 
 $(document).on("click", "#citySearch", function () {
- 
+  
   latData = document.getElementById("latitude_input").value;
   longData = document.getElementById("longitude_input").value;
+  getWeather(cityName, latData, longData);
+
+});
+
+function getWeather(cityName, latData, longData){
   var forecastDate = "";
   var APIKey = "bc5f98e2e0cea0c6e28a5a426c201efa";
   var queryURL =
@@ -75,42 +81,30 @@ $(document).on("click", "#citySearch", function () {
     document.getElementById("humidity").innerHTML = response.current.humidity;
     document.getElementById("wind").innerHTML = response.current.wind_speed;
     document.getElementById("uvi").innerHTML = response.current.uvi;
+
+    function saveCityArr() {
+      if ("localStorage" in window && window["localStorage"] !== null) {
+        var savedCity = {
+          city: cityName,
+          lat: response.lat,
+          long: response.lon,
+        };
+        // savedCities = localStorage.getItem('savedCity');
+        // savedCities = savedCities ? JSON.parse(savedCities) : [];
+        savedCities.push(savedCity);
+
+        localStorage.setItem("savedCity", JSON.stringify(savedCities));
+        //    alert("The data was saved.");
+        console.log(savedCities);
+      }
+    }
+
+    saveCityArr();
     
-    function saveCityArr(){
-        if ('localStorage' in window && window['localStorage'] !== null) {
-      
-           var savedCity= JSON.stringify({city : cityName, lat: response.lat, long: response.lon }),
-                  savedCities = localStorage.getItem('savedCity');
-                  savedCities = savedCities ? JSON.parse(savedCities) : [];
-                  savedCities.push(savedCity);
-                   
-
-           localStorage.setItem("savedCity", JSON.stringify(savedCities)); 
-        //    alert("The data was saved."); 
-            console.log(savedCities);
-                };
-            }
-        
-            saveCityArr();
-      function allStorage() {
-
-                var values = [],
-                    keys = Object.keys(localStorage),
-                    i = keys.length;
-            
-                while ( i-- ) {
-                    values.push( localStorage.getItem(keys[i]) );
-                }
-            console.log(values);
-                return values;
-                
-            }
-         
-
     // Render 5 Day Forecast Weather Details
-
-    for (var i = 0; i < 6; i++ ) {
-        $(".fBox").css("visibility", "visible");
+    $(".fBox").empty();
+    for (var i = 0; i < 6; i++) {
+      $(".fBox").css("visibility", "visible");
       //logging the forecast Information
       var date = new Date(response.daily[i].dt * 1000);
       console.log(date);
@@ -150,6 +144,7 @@ $(document).on("click", "#citySearch", function () {
       var forecastDate = time;
 
       //Creating the Forecast Boxes
+      
       var newBox = $("<div>");
       var newCol = $("<col>");
       //  $("newCol").attr('id', "forecast-" + i)
@@ -173,27 +168,16 @@ $(document).on("click", "#citySearch", function () {
       var newHumidity = $("<div>");
       newHumidity.text("Humidity: " + response.daily[i].humidity + "%");
       $("#fBox" + i).append(newHumidity);
-
-      ;
     }
   });
-});
+}
 
-
-
-// var savedCities = [];
-// function store(cityName) {
-//     items.push(cityName);
-//     localStorage.setItem("cityName", JSON.stringify(savedCities));
-// }
-// function saveToLocalStorage() {
-//     localStorage.setItem("savedCity", JSON.stringify(savedCitiesObj));
-//   }
-  
-//   function getFromLocalStorage() {
-//     // Check if local storage (LS) key exists
-//     if (localStorage.getItem("savedCity")) {
-//       // Then retrieve the associated value from LS
-//       savedCitiesObj = JSON.parse(localStorage.getItem("savedCity"));
-//     }
-//   }
+function getFromLocalStorage() {
+  // Check if local storage (LS) key exists
+  if (localStorage.getItem("savedCity")) {
+    // Then retrieve the associated value from LS
+    savedCities = JSON.parse(localStorage.getItem("savedCity"));
+    console.log(savedCities);
+  }
+}
+getFromLocalStorage();
