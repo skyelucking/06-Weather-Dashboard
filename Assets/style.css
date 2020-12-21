@@ -1,3 +1,10 @@
+.latitude-view{
+  visibility: hidden;
+  font-size:0%;
+  margin: 0px;
+  padding: 0px;
+}
+
 .prevCityBtn {
   background-color: hsl(207, 90%, 45%);
   color:rgb(0, 0, 0);
