@@ -1,6 +1,6 @@
-.prevCity {
-  background-color: hsl(207, 55%, 63%);
-  color:aliceblue;
+.prevCityBtn {
+  background-color: hsl(207, 90%, 45%);
+  color:rgb(0, 0, 0);
   border-color: black;
   border-width: 5px;
   border-style: double;
@@ -8,11 +8,13 @@
   font-weight: normal;
   margin: 3px;
   padding: 10px;
+  width: 15em;
+  font-weight: bold;
 
 }
 .fBox {
   background-color: hsl(207, 90%, 45%);
-  color:aliceblue;
+  color:rgb(8, 8, 8);
   border-color: black;
   border-width: 5px;
   border-style: double;

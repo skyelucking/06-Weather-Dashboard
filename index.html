@@ -13,56 +13,58 @@
     <div class="container" id="weatherContainer">
       <div class="container border border-dark" >
       <div class="row">
-      <div class="col-lg-12 header alert-primary border border-dark">Weather Dashboard</div>
+        <div class="col-lg-12 header alert-primary border border-dark">Weather Dashboard</div>
       </div>
-       <div class="row">
-       <div class="col-lg-4 border border-dark" id="searchCol">
-           <div>Search for a city:</div>
-           <div>
-            <div class="container">
-<!-- autocomplete location search inputs -->
-
-<!-- <div class="form-group"> -->
-                <input type="text" class="form-control" id="search_input" placeholder="Type city..."></div>
-                <input type="hidden" id="latitude_input" />
-                <input type="hidden" id="longitude_input" /></div>
-               <button id="citySearch" style="margin: 10px;">Search</button>
-<!-- Display lat and long -->
-                <div class="latlong-view">
-                    <p><b></b><span id="latitude-view" style="visibility: hidden;"></span></p>
-                    <p><b></b><span id="longitutde-view" style="visibility: hidden;"></span></p>
-
-         <div><h4>Previous Cities Searched</h4></div></div>
-         <div class="container" id="prevCityList">
-          <div class="prevCity alert-primary border border-dark"> </div></div>
+      <div class="row">
+        <div class="col-lg-4 border border-dark" id="searchCol">
+            <div>Search for a city:</div>
+            <div>
+              <div class="container">
+  <!-- autocomplete location search inputs -->
+  <!-- <div class="form-group"> -->
+                  <input type="text" class="form-control" id="search_input" placeholder="Type city...">
+              </div>
+              <input type="hidden" id="latitude_input" />
+              <input type="hidden" id="longitude_input" /></div>
+              <button id="citySearch" style="margin: 10px;">Search</button>
+  <!-- Display lat and long -->
+              <div class="latlong-view">
+                  <p>
+                    <b></b><span id="latitude-view" style="visibility: hidden;"></span>
+                  </p>
+                  <p>
+                    <b></b><span id="longitutde-view" style="visibility: hidden;"></span>
+                  </p>
+                <h4>Previous Cities Searched</h4>
+                <div class="container" id="prevCityList">
+                </div>
+              </div>
+          
+            </div><div class="col-lg-8 border border-dark">
+            
+            <div id="currentInfo">
+            <h2>Currently in City: <div id="cityNameLabel" style="color: blue;"><br></div></h2>
+            <hr>
+           <div>Current Time: <span id="currentDate"></span></div> 
+          <div>Temperature: <span id="temp"></span></div>
+          <div>Humidity: <span id="humidity"></span></div>
+          <div>Wind Speed: <span id="wind"></span></div>
+          <div>UV Index: <span id="uvi"></span></div>
+          <hr>
+ 
+         <div id="fiveDayForecast"><h2>Five Day Forecast</h2></div>
+          <hr>
+          <div class="row" >
+            <div class="col fBox" id="fBox0"></div>
+            <div class="col fBox" id="fBox1"></div>
+            <div class="col fBox" id="fBox2"></div>
+            <div class="col fBox" id="fBox3"></div>
+            <div class="col fBox" id="fBox4"></div>
+     </div>
+     </div></div>
          
-            </div>
-        <div class="col-lg-8 border border-dark">
-         <div id="currentInfo">
-           <h2>Currently in City: <div id="cityNameLabel" style="color: blue;"><br></div></h2>
-           <hr>
-          <div>Current Time: <span id="currentDate"></span></div> 
-         <div>Temperature: <span id="temp"></span></div>
-         <div>Humidity: <span id="humidity"></span></div>
-         <div>Wind Speed: <span id="wind"></span></div>
-         <div>UV Index: <span id="uvi"></span></div>
-         <hr>
-
-        <div id="fiveDayForecast"><h2>Five Day Forecast</h2></div>
-         <hr>
-         <div class="row" >
-           <div class="col fBox" id="fBox0"></div>
-           <div class="col fBox" id="fBox1"></div>
-           <div class="col fBox" id="fBox2"></div>
-           <div class="col fBox" id="fBox3"></div>
-           <div class="col fBox" id="fBox4"></div>
-           
-         <div>
-         </div>
-    </div>
-    
-    </row>
- </div>
+        
+        
  </div>
  </div>
  </div>
