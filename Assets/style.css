@@ -5,6 +5,11 @@
   padding: 0px;
 }
 
+#uvi{
+  padding: 3px;
+  margin: 3px;
+}
+
 .prevCityBtn {
   background-color: hsl(207, 90%, 45%);
   color:rgb(0, 0, 0);
