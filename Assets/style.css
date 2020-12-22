@@ -84,3 +84,10 @@ form.example input[type=text] {
     clear: both;
     display: table;
   }
+
+  .weatherLabel{
+    font-weight: bold;
+  }
+  .weatherInfo{
+    font-weight: normal;
+  }

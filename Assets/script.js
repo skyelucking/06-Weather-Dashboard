@@ -9,7 +9,6 @@
 
 //Declare Variables for City Search
 var savedCities = [];
-
 var $searchInput = $("#search_input"); // document.querySelector('#search_iniput)
 var $citySearchBtn = $('#citySearch');
 var $latitudeInput = $('#latitude_input');
@@ -18,7 +17,9 @@ var longData = "";
 var latData = "";
 var cityName = "";
 var weatherResponse;
-var $prevCityBtn = $('.prevCityBtn');;
+var $prevCityBtn = $('.prevCityBtn');
+var current_date = "";
+var current_time = "";
 
 
 function initGoogleMaps() {
@@ -46,20 +47,21 @@ function initGoogleMaps() {
 
 function buildPastCitySearches() {
   var city, $div;
-  
-  $prevCityList.empty();
-  // console.log('we are in buildPastCitySearches');
+   $prevCityList.empty();
   for(var i = 0; i < savedCities.length; i++) {
-    console.log(savedCities.length);
     city = savedCities[i];
+    if (city.city === ""){
+      // console.log("city exists");
+    } 
+    else {
     $div = $('<button><div></div></button>')
     .addClass('prevCityBtn alert-primary border border-dark ')
     .attr("id", [i]);
     $div.text(city.city);
-    $prevCityList.append($div);
+    $prevCityList.append($div);}
     $div.on('click', function(e) {
      var id = $(this).attr('id');
-      console.log(id);
+      // console.log(id);
       city = savedCities[id];
       e.preventDefault();
       getWeather(city.city, city.lat, city.long, false)
@@ -67,11 +69,13 @@ function buildPastCitySearches() {
   }
 }
 
+
 function initialize() {
   // Initialize everything
   initGoogleMaps();
   getFromLocalStorage();
   buildPastCitySearches();
+ 
 
   $searchInput.on('change', function() {
     $latitudeInput.value = '';
@@ -105,12 +109,16 @@ function getWeather(cityName, latData, longData){
     method: "GET",
   }).then(function (response) {
     var date = new Date(response.daily[0].dt * 1000);
-    document.getElementById("cityNameLabel").innerHTML = cityName;
-    document.getElementById("currentDate").innerHTML = date;
+    document.getElementById("cityNameLabel").innerHTML = cityName  + "(" + current_date + ")"  + "<img id='theImg' src='http://openweathermap.org/img/w/" +
+    response.current.weather[0].icon +
+    ".png'/>";
+    document.getElementById("currentTime").innerHTML = current_time;
     document.getElementById("temp").innerHTML = response.current.temp + " °F";
     document.getElementById("humidity").innerHTML = response.current.humidity + " %";
     document.getElementById("wind").innerHTML = response.current.wind_speed;
     document.getElementById("uvi").innerHTML = response.current.uvi;
+    // console.log(response);
+    
 
     saveCityArr(response.lat, response.lon);  
     
@@ -122,8 +130,10 @@ function getWeather(cityName, latData, longData){
       var date = new Date(response.daily[i].dt * 1000);
       
       //Converts Unix date to Formatted Date
+      var today_timestamp = response.current.dt;
       var UNIX_timestamp = response.daily[i].dt;
       var a = new Date(UNIX_timestamp * 1000);
+      var b = new Date(today_timestamp * 1000);
       var months = [
         "1",
         "2",
@@ -138,15 +148,36 @@ function getWeather(cityName, latData, longData){
         "11",
         "12",
       ];
+      var today_year = b.getFullYear();
       var year = a.getFullYear();
+      var today_month = months[b.getMonth()];
       var month = months[a.getMonth()];
+      var today_date = b.getDate();
       var date = a.getDate();
+      var today_hour = b.getHours();
       var hour = a.getHours();
       var min = a.getMinutes();
+      var today_min = b.getMinutes();
       var sec = a.getSeconds();
+      var today_sec = b.getSeconds();
+      var current_hour = today_hour + ":" + today_min+ ":" + today_sec;
       var time = month + "/" + date + "/" + year;
+      var today_time = today_month + "/" + today_date + "/" + today_year;
+      current_date = today_time;
+      console.log(current_hour);
+      console.log(response);
       var forecastDate = time;
 
+      //Converts from 24 to 12HR format
+      function convert(current_hour) {
+        return moment(current_hour, 'HH:mm:ss').format('h:mm:ss A');
+         
+    }
+     current_time = convert(current_hour);
+      console.log("current hour:" + current_time);
+   
+
+      
       //Creating the Forecast Boxes
       var newBox = $("<div>");
       var newCol = $("<col>");
@@ -199,6 +230,7 @@ function saveCityArr(lat,lon) {
 }
 
 function getFromLocalStorage() {
+  
   // Check if local storage (LS) key exists
   if (localStorage.getItem("savedCity")) {
     // Then retrieve the associated value from LS
@@ -209,4 +241,3 @@ function getFromLocalStorage() {
 $(document).ready(function () {
   initialize();
 });
- 
